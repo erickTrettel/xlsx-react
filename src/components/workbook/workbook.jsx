@@ -19,9 +19,13 @@ class Workbook extends Component {
 
     const rows = await readXlsxFile(file)
 
+    console.log("Objeto completo: ", rows)
+
     const headers = rows[0]
 
     let array = []
+
+    console.log("Objetos formatados: ")
 
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i];
@@ -34,6 +38,7 @@ class Workbook extends Component {
         }
       }
 
+      console.log(obj)
       array.push(obj)
     }
 

@@ -100,24 +100,42 @@ class Workbook extends Component {
   render() {
     return (
       <div>
-        <h4>Upload de arquivos excel</h4>
-        <br/>
-        <p>Selecione um arquivo excel que segue o formato:</p>
-        <ul>
-          <li><b>1º linha: </b> Cabeçalho</li>
-          <li><b>2º linha: </b> Corpo da tabela</li>
-        </ul>
-        <p>A biblioteca irá então ler a planilha e converter para JSON</p>
-        <form onSubmit={this.handleSubmit}>
-          <input type="file" name="file" id="file"/>
+        
+          <h4>Upload de arquivos excel</h4>
           <br/>
-          <button type="submit">Carregar</button>
-        </form>
-        <br/>
-          <button type="submit" onClick={this.handleSave}>Gravar no Banco</button>        
-        <br/>
-        <br/>
+          <p>Selecione um arquivo excel que segue o formato:</p>
+          <ul>
+            <li><b>1º linha: </b> Cabeçalho</li>
+            <li><b>2º linha: </b> Corpo da tabela</li>
+          </ul>
+          <p>A biblioteca irá então ler a planilha e converter para JSON</p>
 
+          <form>
+            <p>Informe a opção que deseja importar!</p>
+            <input type="radio" id="male" name="gender" value="male"/>
+            <label for="male">Pessoas</label>
+            <input type="radio" id="male" name="gender" value="male"/>
+            <label for="male">Contratos</label>
+            <input type="radio" id="male" name="gender" value="male"/>
+            <label for="male">Contas</label>
+          </form>
+          <br/>
+
+          <form onSubmit={this.handleSubmit}>
+            <input type="file" name="file" id="file"/>
+            <br/>
+            <button type="submit">Carregar</button>
+          </form>
+          <br/>
+            <button type="submit" onClick={this.handleSave}>Gravar no Banco</button>        
+          <br/>
+          <br/>
+        
+        
+
+          
+
+        
         {
           this.state.body ? (
             <React.Fragment>

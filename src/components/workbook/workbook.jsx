@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import readXlsxFile from 'read-excel-file'
+import React, { Component } from 'react';
+import readXlsxFile from 'read-excel-file';
+import axios from 'axios';
 
 class Workbook extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class Workbook extends Component {
   }
 
   handleSubmit = async e => {
+    
     e.preventDefault()
 
     const file = e.target.file.files[0]
@@ -19,13 +21,13 @@ class Workbook extends Component {
 
     const rows = await readXlsxFile(file)
 
-    console.log("Objeto completo: ", rows)
+    //console.log("Objeto completo: ", rows)
 
     const headers = rows[0]
 
     let array = []
 
-    console.log("Objetos formatados: ")
+    //console.log("Objetos formatados: ")
 
     for (let i = 1; i < rows.length; i++) {
       const row = rows[i];
@@ -47,6 +49,24 @@ class Workbook extends Component {
       headers,
       body: array
     })
+  }  
+
+  handleSave = async () => {
+    const result = [];
+
+    for(let i = 0; i < this.state.body.length; i+=50){
+      
+      const str = this.state.body.slice(i,i+50);
+      result.push(await axios.post("http://localhost:8080/api/pessoa", str));    
+      
+    }
+
+    const count = (await Promise.all(
+                    result
+                  )).map(item => item.data.count).reduce((a,b) => a+b)
+
+    alert('Registros Inseridos: ' + count); 
+       
   }
 
   renderHeader = () => {
@@ -91,13 +111,17 @@ class Workbook extends Component {
         <form onSubmit={this.handleSubmit}>
           <input type="file" name="file" id="file"/>
           <br/>
-          <button type="submit">enviar</button>
+          <button type="submit">Carregar</button>
         </form>
+        <br/>
+          <button type="submit" onClick={this.handleSave}>Gravar no Banco</button>        
+        <br/>
+        <br/>
 
         {
           this.state.body ? (
             <React.Fragment>
-              <table border="1">
+              <table border="1" align="center">
                 <thead>
                   {this.renderHeader()}
                 </thead>
